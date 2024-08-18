@@ -1,0 +1,39 @@
+<div class="message-to-user">
+  {{ messageToUser }}
+</div>
+<div class="table-container">
+  <table>
+    <thead>
+    <tr>
+      <th class="sortable" (click)="getProducts('barcode')" title="Press to sort">Barcode</th>
+      <th class="sortable" (click)="getProducts('name')" title="Press to sort">Name</th>
+      <th>Image</th>
+      <th class="sortable" (click)="getProducts('rating')" title="Press to sort">Rating</th>
+      <th class="sortable" (click)="getProducts('price')" title="Press to sort">Price</th>
+      <th>Tags</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let product of products | slice: (currentPage-1) * itemsPerPage : currentPage * itemsPerPage">
+      <td>{{ product.barcode }}</td>
+      <td>{{ product.name }}</td>
+      <td><img [src]="product.image" alt="{{ product.name }}"/></td>
+      <td>{{ product.rating }}</td>
+      <td>{{ product.price }}</td>
+      <td>{{ product.tags.join(', ') }}</td>
+      <td>
+        <button [id]="'edit-button-' + product.barcode" (click)="editProduct(product)">Edit</button>
+        <button [id]="'delete-button-' + product.barcode" (click)="deleteProduct(product)">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div class="pagination">
+  <button class="prev-button" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">Previous</button>
+  <span>Page {{ currentPage }}</span>
+  <button class="next-button" [disabled]="currentPage === products.length / itemsPerPage"
+          (click)="changePage(currentPage + 1)">Next
+  </button>
+</div>
